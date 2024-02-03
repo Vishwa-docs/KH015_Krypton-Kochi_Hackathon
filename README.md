@@ -35,7 +35,9 @@
 2. Backend integration with web application complete
 3. Started working on the deployment of the model on app
 
-
+### Submission 7
+1. Added rules for Android App
+2. Added Zero Knowledge Protocol for Login Page
 
 
 ***
