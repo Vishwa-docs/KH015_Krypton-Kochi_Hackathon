@@ -26,6 +26,10 @@
 2. Finished the static pages in Android App
 3. Started building model for Android App
 
+### Submission 5
+1. Improved the model
+2. Attended talk for seminar
+
 
 ***
 ***
