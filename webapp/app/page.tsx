@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 export default function Home() {
   return (
     <>
-      <Navbar page={0} />
+      <Navbar page={1} />
       <h1>Hello world</h1>
     </>
   );
