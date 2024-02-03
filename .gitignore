@@ -125,3 +125,6 @@ dmypy.json
 
 # For the Mac Files
 .DS_Store
+
+# Data Files
+*.csv
