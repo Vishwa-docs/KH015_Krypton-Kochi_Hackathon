@@ -133,6 +133,7 @@ dmypy.json
 *.pkl
 *.h5
 *.tflite
+*.sav
 
 # Data Files
 Sample_Data.json
