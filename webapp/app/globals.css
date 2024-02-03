@@ -1,5 +1,8 @@
 :root {
   --navbar-height: 60px;
+  --primary-color: #00C880;
+
+  --background-color: #E8F1F6;
 }
 
 * {
