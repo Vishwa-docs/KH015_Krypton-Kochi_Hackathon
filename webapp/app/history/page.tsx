@@ -1,15 +1,21 @@
-import styles from './page.module.css'
-import Navbar from '@/components/Navbar';
+'use client'
+
+import styles from './page.module.css';
+import Navbar from "@/components/Navbar";
+
+import { useState, useRef, FormEvent } from 'react';
 
 function History() {
   return (
-    <div>
+    <>
       <Navbar page={4} />
-      <div className="content">
-        <h1>History</h1>
-        <p>History page content</p>
+
+      <div className={styles.outerBox}>
+        <div className={styles.box}>
+          <h1>Recent Transactions</h1>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
