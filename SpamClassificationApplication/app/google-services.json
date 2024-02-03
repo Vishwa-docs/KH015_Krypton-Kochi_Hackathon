@@ -1,15 +1,15 @@
 {
   "project_info": {
-    "project_number": "868032601416",
-    "project_id": "spamclassificationapplication",
-    "storage_bucket": "spamclassificationapplication.appspot.com"
+    "project_number": "868032601172",
+    "project_id": "spamclassificationapp",
+    "storage_bucket": "spamclassificationapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:868032601416:android:4c5c0446c0d5f378c9277d",
         "android_client_info": {
-          "package_name": "com.example.spamclassificationapplication"
+          "package_name": "com.example.spamclassificationapp"
         }
       },
       "oauth_client": [],
