@@ -1,0 +1,11 @@
+:root {
+  --navbar-height: 60px;
+}
+
+* {
+  margin: 0px;
+}
+
+body {
+  background-color: #E8F1F6;
+}
