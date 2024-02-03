@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Message
 import com.google.firebase.auth.FirebaseAuth
 
 import java.net.URL
@@ -14,7 +15,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 // for ML Classification
-import com.example.myapplication.helpers.TextClassificationClient
+import com.example.spamclassificationapplication.helpers.TextClassificationClient
 import com.google.firebase.database.DatabaseReference
 import org.tensorflow.lite.support.label.Category
 

@@ -39,6 +39,8 @@
 1. Added rules for Android App
 2. Added Zero Knowledge Protocol for Login Page
 
+### Submission 8
+1. Completed the Mobile App
 
 ***
 ***
