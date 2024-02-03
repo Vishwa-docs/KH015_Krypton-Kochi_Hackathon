@@ -1,21 +1,32 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, request, jsonify, render_template
+import pickle
 from flask_cors import CORS
+import numpy as np
 import requests
 import pymongo
-import math
-import pandas as pd
-import numpy as np
-import pickle
 from datetime import datetime
+import pandas as pd
+import math
+
+app = Flask(__name__)
+CORS(app)
 
 
-uri = "mongodb+srv://rsarans186:S16375008C01@cluster0.c6haabw.mongodb.net/"
+def delete_record(uid):
+    client = pymongo.MongoClient(
+        "mongodb+srv://achucod03:achintya%40mango@krypton.dc3eerr.mongodb.net/"
+    )
+    db = client.magic
+    collection = db.users
+    collection.delete_one({"uid": uid})
 
 
 def get_lat_lon_from_ip(ip_address):
     try:
-        response = requests.get(f"http://ip-api.com/json/{ip_address}").json()
-        if not response or response["status"] == "fail":
+        response = requests.post(
+            "http://ip-api.com/batch", json=[{"query": ip_address}]
+        ).json()
+        if not response or "lat" not in response[0] or "lon" not in response[0]:
             print(f"Unable to get location details for IP address {ip_address}")
             return None
 
@@ -29,7 +40,9 @@ def get_lat_lon_from_ip(ip_address):
 
 
 def get_loc_from_id(uid):
-    client = pymongo.MongoClient(uri)
+    client = pymongo.MongoClient(
+        "mongodb+srv://achucod03:achintya%40mango@krypton.dc3eerr.mongodb.net/"
+    )
     db = client.magic
     collection = db.uid_loc
     data = collection.find({"uid": uid})
@@ -37,11 +50,12 @@ def get_loc_from_id(uid):
     for _ in data:
         _.pop("_id")
         return _
-    return None
 
 
 def get_score_from_id(uid):
-    client = pymongo.MongoClient(uri)
+    client = pymongo.MongoClient(
+        "mongodb+srv://achucod03:achintya%40mango@krypton.dc3eerr.mongodb.net/"
+    )
     db = client.magic
     collection = db.users
     data = collection.find({"uid": uid})
@@ -52,7 +66,9 @@ def get_score_from_id(uid):
 
 
 def update_score(uid, score):
-    client = pymongo.MongoClient(uri)
+    client = pymongo.MongoClient(
+        "mongodb+srv://achucod03:achintya%40mango@krypton.dc3eerr.mongodb.net/"
+    )
     db = client.magic
     collection = db.users
     collection.delete_one({"uid": uid})
@@ -60,7 +76,9 @@ def update_score(uid, score):
 
 
 def update_user(uid, time, lat, long):
-    client = pymongo.MongoClient(uri)
+    client = pymongo.MongoClient(
+        "mongodb+srv://achucod03:achintya%40mango@krypton.dc3eerr.mongodb.net/"
+    )
     db = client.magic
     collection = db.uid_loc
     collection.delete_one({"uid": uid})
@@ -90,8 +108,11 @@ def calculate_distance(lat_prev, long_prev, lat_current, long_current):
 
 
 def convert_to_compatible(input, target):
+    print(input)
     NOW = datetime.now()
+    print("---")
 
+    print(get_score_from_id(input["cc_num"]))
     target["cc_num"] = get_score_from_id("'" + input["cc_num"])["fraud_rate"]
     target["merchant"] = get_score_from_id(input["merchant"])["fraud_rate"]
     target["amt"] = input["amt"]
@@ -130,44 +151,44 @@ def convert_to_compatible(input, target):
     update_user(input["merchant"], NOW, target["merch_lat"], target["merch_long"])
 
 
-app = Flask(__name__)
-CORS(app)
+# Enable CORS for all routes
 
-model = pickle.load(open("model.pkl", "rb"))
+model = pickle.load(open("NiceModel.sav", "rb"))
 
 
 @app.route("/")
-def index():
+def home():
     return render_template("index.html")
 
 
+# Update the predict route in Flask
 @app.route("/predict", methods=["POST"])
 def predict():
-    """
-    For rendering results on HTML GUI
-    """
-    in_features = [str(x) for x in request.form.values()]
-    out_features = {}
+    try:
+        print(request.form)
+        in_features = request.form.to_dict()
+        out_features = {}
 
-    convert_to_compatible(in_features, out_features)
+        print("---")
+        convert_to_compatible(in_features, out_features)
 
-    float_features = [float(x) for x in out_features.values()]
+        float_features = [float(x) for x in out_features.values()]
 
-    final_features = np.array(float_features).reshape(1, -1)
+        final_features = np.array(float_features).reshape(1, -1)
 
-    # Check the number of features expected by the model
-    if final_features.shape[1] != model.n_features_in_:
-        return render_template(
-            "index.html", prediction_text="Invalid number of features"
-        )
+        if final_features.shape[1] != model.n_features_in_:
+            return render_template(
+                "index.html", prediction_text="Invalid number of features"
+            )
 
-    prediction = model.predict(final_features)
+        prediction = model.predict(final_features)
+        output = round(prediction[0], 2)
 
-    output = round(prediction[0], 2)
+        return jsonify(str(output))
 
-    return render_template(
-        "index.html", prediction_text=f"The Transaction is: $ {output}"
-    )
+    except Exception as e:
+        print(f"Error predicting: {e}")
+        return jsonify({"error": "Error predicting"}), 500
 
 
 @app.route("/predict_api", methods=["POST"])
@@ -178,7 +199,8 @@ def predict_api():
     data = request.get_json(force=True)
     prediction = model.predict([np.array(list(data.values()))])
 
-    output = prediction[0].item()
+    # Convert the prediction to a standard Python data type
+    output = prediction[0].item()  # Convert NumPy int64 to Python int
 
     return jsonify(output)
 
