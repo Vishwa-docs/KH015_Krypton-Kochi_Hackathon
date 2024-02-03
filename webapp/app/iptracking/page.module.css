@@ -1,6 +1,6 @@
-.box {
+.outerBox {
   padding-top: 100px;
-  width: 150px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,7 +8,8 @@
   margin: auto;
 }
 
-.box>form {
+.box {
+  text-align: center;
   background-color: white;
   padding: 40px 80px;
   border-radius: 20px;
@@ -21,7 +22,6 @@
 .textbox {
   font-weight: bold;
   background-color: #E3E6E9;
-  width: 400px;
   border-radius: 7px;
   border: none;
   margin-top: 10px;
@@ -30,13 +30,14 @@
   margin-bottom: 20px;
   padding: 10px;
   font-size: 20px;
+  width: 300px;
 }
 
 .submit {
   background-color: var(--primary-color);
   border-radius: 10px;
   font-weight: bold;
-  width: 300px;
+  width: 200px;
   color: white;
   border: none;
   cursor: pointer;

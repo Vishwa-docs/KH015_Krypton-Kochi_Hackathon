@@ -24,7 +24,7 @@ function Prediction() {
         <form onSubmit={handleSubmit}>
           <div>
             <div>Credit Card</div>
-            <input type="textbox" value={creditCardNumber} onChange={e => setCreditCardNumber(e.target.value)} placeholder="1234 1234 1234 1234" />
+            <input type="textbox" value={creditCardNumber} onChange={e => setCreditCardNumber(e.target.value)} />
           </div>
           <div>
             <div>Merchant ID</div>
@@ -32,11 +32,11 @@ function Prediction() {
           </div>
           <div>
             <div>Amount</div>
-            <input type="textbox" value={amount} onChange={e => setAmount(e.target.value)} placeholder="0.0" />
+            <input type="textbox" value={amount} onChange={e => setAmount(e.target.value)} />
           </div>
           <div>
             <div>Sender's IP Address</div>
-            <input type="textbox" value={senderIp} onChange={e => setSenderIp(e.target.value)} placeholder="123.123.123.123" />
+            <input type="textbox" value={senderIp} onChange={e => setSenderIp(e.target.value)} />
           </div>
           <div>
             <div>
