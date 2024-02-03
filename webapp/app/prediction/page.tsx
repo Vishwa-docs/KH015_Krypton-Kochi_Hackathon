@@ -47,8 +47,8 @@ function Prediction() {
           <div style={{ textAlign: "center" }}>
             <input type="submit" value="Check Transaction" />
           </div>
-        </form >
-      </div >
+        </form>
+      </div>
     </>
   )
 }

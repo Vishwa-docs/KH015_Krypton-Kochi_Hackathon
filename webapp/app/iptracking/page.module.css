@@ -1,0 +1,55 @@
+.outerBox {
+  padding-top: 100px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.box {
+  text-align: center;
+  background-color: white;
+  padding: 40px 80px;
+  border-radius: 20px;
+  box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.1);
+  color: #628BB1;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.textbox {
+  font-weight: bold;
+  background-color: #E3E6E9;
+  border-radius: 7px;
+  border: none;
+  margin-top: 10px;
+  outline: none;
+  color: #225889;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 20px;
+  width: 300px;
+}
+
+.submit {
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  font-weight: bold;
+  width: 200px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  height: 50px;
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.error {
+  text-align: center;
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
