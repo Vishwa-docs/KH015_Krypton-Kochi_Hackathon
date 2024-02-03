@@ -3,9 +3,9 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/ping")
 def index():
-    return "Hello, World!"
+    return "pong!"
 
 
 if __name__ == "__main__":

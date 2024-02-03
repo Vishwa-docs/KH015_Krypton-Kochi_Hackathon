@@ -1,37 +1,34 @@
 .box {
-  height: calc(100vh - var(--navbar-height));
+  height: 800px;
   display: flex;
   flex-direction: column;
-  outline: 1px solid black;
   justify-content: center;
   align-items: center;
   margin: auto;
 }
 
 .box>form {
-  height: 570px;
-  width: 600px;
   background-color: white;
-  padding: 100px;
-  border-radius: 30px;
+  padding: 40px 80px;
+  border-radius: 20px;
   box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.1);
+  color: #628BB1;
+  font-size: 20px;
 }
 
-.box>form>div {
-  color: #628BB1;
+.box>form>div>div {
+  padding-left: 10px;
   font-weight: bold;
-  font-size: 24px;
 }
 
 .box>form>div>input[type="textbox"] {
   background-color: #E3E6E9;
-  width: 300px;
+  width: 400px;
   border-radius: 7px;
   border: none;
   margin-top: 10px;
   outline: none;
   color: #225889;
-  font-weight: bold;
   margin-bottom: 20px;
   padding: 10px;
   font-size: 20px;
@@ -47,5 +44,5 @@
   cursor: pointer;
   height: 50px;
   margin-top: 20px;
-  font-size: 24px;
+  font-size: 20px;
 }
