@@ -30,6 +30,13 @@
 1. Improved the model
 2. Attended talk for seminar
 
+### Submission 6
+1. Finished the model for Android App
+2. Backend integration with web application complete
+3. Started working on the deployment of the model on app
+
+
+
 
 ***
 ***
