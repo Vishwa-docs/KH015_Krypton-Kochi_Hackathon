@@ -1,5 +1,18 @@
 # KH015 - Team Krypton
 
+
+***
+***
+# Work Done
+### Submission 1
+1. Setup Git Repo
+2. Created README.md
+3. Created flowcharts and diagrams for website
+4. Started Researching Models for Fraud Detection
+![Image](https://github.com/Vishwa-docs/KH015_Krypton-Kochi_Hackathon/blob/main/Model%20Design.png)
+
+
+***
 ***
 ## Team Members
 | Name                | Role                         |
@@ -25,11 +38,3 @@ Our Innovations:
 2. **Real-time Network Analysis:** Analyzes financial transactions in real-time for enhanced security. 
 3. **Crypto-Based Authentication:** Implements a hash-based authentication (Zero-Knowledge Protocol) for secure user login. 
 4. **Phishing and Spam Detection** on the Edge
-***
-***
-# Work Done
-### Submission 1
-1. Setup Git Repo
-2. Created README.md
-3. Created flowcharts and diagrams for website
-4. Started Researching Models for Fraud Detection
