@@ -16,6 +16,16 @@
 2. Started working on the model for fraud detection
 3. Started coding web page
 
+### Submission 3
+1. Finished few pages in web application
+2. Redid Android App Code
+3. Finished and Evaluated the model for Fraud Detection
+
+### Submission 4
+1. Finished few more features in the web application (IP Tracking)
+2. Finished the static pages in Android App
+3. Started building model for Android App
+
 
 ***
 ***

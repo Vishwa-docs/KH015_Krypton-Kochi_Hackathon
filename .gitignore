@@ -128,3 +128,17 @@ dmypy.json
 
 # Data Files
 *.csv
+
+# Model Files
+*.pkl
+*.h5
+*.tflite
+
+# Data Files
+Sample_Data.json
+
+# Zip
+*.zip
+
+# Exploration
+Exploration/
