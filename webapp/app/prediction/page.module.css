@@ -1,4 +1,4 @@
-.box {
+.outerBox {
   height: 800px;
   display: flex;
   flex-direction: column;
@@ -7,7 +7,7 @@
   margin: auto;
 }
 
-.box>form {
+.innerBox {
   background-color: white;
   padding: 40px 80px;
   border-radius: 20px;
@@ -21,7 +21,7 @@
   font-weight: bold;
 }
 
-.box>form>div>input[type="textbox"] {
+.box>form>div>input[type="text"] {
   background-color: #E3E6E9;
   width: 400px;
   border-radius: 7px;
