@@ -11,6 +11,11 @@
 4. Started Researching Models for Fraud Detection
 ![Image](https://github.com/Vishwa-docs/KH015_Krypton-Kochi_Hackathon/blob/main/Resources/Model%20Design.png)
 
+### Submission 2
+1. Created and Initialised an Android app and started building static pages
+2. Started working on the model for fraud detection
+3. Started coding web page
+
 
 ***
 ***
