@@ -15,6 +15,7 @@ function Prediction() {
   });
 
   const [prediction, setPrediction] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,6 +36,7 @@ function Prediction() {
       .then(data => {
         console.log(data);
         setPrediction(data);
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error making API request:', error);
@@ -75,8 +77,8 @@ function Prediction() {
             </div>
           </form>
 
-          {prediction && (
-            <div>
+          {prediction && !loading && (
+            <div style={{ textAlign: "center", margin: "30px" }}>
               <h2>Prediction: {prediction}</h2>
             </div>
           )}
