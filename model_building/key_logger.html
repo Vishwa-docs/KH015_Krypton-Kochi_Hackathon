@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Press Logger</title>
+</head>
+<body>
+    <h1>Key Press Logger</h1>
+    <p>Type something in this document and check the console.</p>
+
+    <script>
+        // Array to store key press logs
+        var keyPressLogs = [];
+
+        // Object to store key press start times
+        var keyPressStartTime = {};
+
+        // Function to handle keydown event
+        function handleKeyDown(event) {
+            var key = event.key;
+            // Store the current time when a key is pressed
+            keyPressStartTime[key] = new Date().getTime();
+        }
+
+        // Function to handle keyup event
+        function handleKeyUp(event) {
+            var key = event.key;
+            if (keyPressStartTime[key]) {
+                // Calculate the duration the key was pressed
+                var duration = new Date().getTime() - keyPressStartTime[key];
+                // Create a log object
+                var log = {
+                    key: key,
+                    duration: duration
+                };
+                // Add the log object to the keyPressLogs array
+                keyPressLogs.push(log);
+                // Remove the key from the keyPressStartTime object
+                delete keyPressStartTime[key];
+            }
+        }
+
+        // Add event listeners for keydown and keyup events
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("keyup", handleKeyUp);
+
+        // Function to save key press logs to local storage
+        function saveKeyPressLogs() {
+            // Convert the key press logs array to JSON
+            var jsonLogs = JSON.stringify(keyPressLogs);
+            // Store the JSON data in local storage
+            localStorage.setItem('keyPressLogs', jsonLogs);
+            console.log("Key press logs saved to local storage.");
+        }
+        
+        setTimeout(saveKeyPressLogs, 3); // Change delay as needed
+    </script>
+</body>
+</html>
