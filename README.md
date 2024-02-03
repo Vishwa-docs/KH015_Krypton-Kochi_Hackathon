@@ -9,7 +9,7 @@
 2. Created README.md
 3. Created flowcharts and diagrams for website
 4. Started Researching Models for Fraud Detection
-![Image](https://github.com/Vishwa-docs/KH015_Krypton-Kochi_Hackathon/blob/main/Model%20Design.png)
+![Image](https://github.com/Vishwa-docs/KH015_Krypton-Kochi_Hackathon/blob/main/Resources/Model%20Design.png)
 
 
 ***
