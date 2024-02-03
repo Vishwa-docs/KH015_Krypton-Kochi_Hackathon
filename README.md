@@ -21,6 +21,12 @@
 2. Redid Android App Code
 3. Finished and Evaluated the model for Fraud Detection
 
+### Submission 4
+1. Finished few more features in the web application (IP Tracking)
+2. Finished the static pages in Android App
+3. Started building model for Android App
+
+
 ***
 ***
 ## Team Members
