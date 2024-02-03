@@ -3,51 +3,84 @@
 import styles from './page.module.css';
 import Navbar from "@/components/Navbar";
 
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 
 function Prediction() {
-  const [creditCardNumber, setCreditCardNumber] = useState('');
-  const [merchantId, setMerchantId] = useState('');
-  const [amount, setAmount] = useState('');
-  const [senderIp, setSenderIp] = useState('');
-  const [merchantIp, setMerchantIp] = useState('');
+  const [formData, setFormData] = useState({
+    cc_num: '',
+    merchant: '',
+    amt: '',
+    sender_ip: '',
+    merch_ip: ''
+  });
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const [prediction, setPrediction] = useState(null);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  }
+    console.log(formData);
+
+    fetch('http://127.0.0.1:5000/predict', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams(formData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setPrediction(data);
+      })
+      .catch(error => {
+        console.error('Error making API request:', error);
+      });
+  };
 
   return (
     <>
       <Navbar page={2} />
 
-      <div className={styles.box}>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <div>Credit Card</div>
-            <input type="textbox" value={creditCardNumber} onChange={e => setCreditCardNumber(e.target.value)} />
-          </div>
-          <div>
-            <div>Merchant ID</div>
-            <input type="textbox" value={merchantId} onChange={e => setMerchantId(e.target.value)} />
-          </div>
-          <div>
-            <div>Amount</div>
-            <input type="textbox" value={amount} onChange={e => setAmount(e.target.value)} />
-          </div>
-          <div>
-            <div>Sender's IP Address</div>
-            <input type="textbox" value={senderIp} onChange={e => setSenderIp(e.target.value)} />
-          </div>
-          <div>
+      <div className={styles.outerBox}>
+        <div className={styles.innerBox}>
+          <form onSubmit={handleSubmit}>
             <div>
-              Receiver's IP Address
+              <div>Credit Card</div>
+              <input type="text" name="cc_num" onChange={handleChange} />
             </div>
-            <input type="textbox" value={merchantIp} onChange={e => setMerchantIp(e.target.value)} />
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <input type="submit" value="Check Transaction" />
-          </div>
-        </form>
+            <div>
+              <div>Merchant ID</div>
+              <input type="text" name="merchant" onChange={handleChange} />
+            </div>
+            <div>
+              <div>Amount</div>
+              <input type="text" name="amt" onChange={handleChange} />
+            </div>
+            <div>
+              <div>Sender's IP Address</div>
+              <input type="text" name="sender_ip" onChange={handleChange} />
+            </div>
+            <div>
+              <div>
+                Receiver's IP Address
+              </div>
+              <input type="text" name="merch_ip" onChange={handleChange} />
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <input type="submit" value="Check Transaction" />
+            </div>
+          </form>
+
+          {prediction && (
+            <div>
+              <h2>Prediction: {prediction}</h2>
+            </div>
+          )}
+        </div>
       </div>
     </>
   )
