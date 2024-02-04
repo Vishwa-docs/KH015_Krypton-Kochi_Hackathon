@@ -7,7 +7,8 @@
 }
 
 .outerBox {
-  padding: 40px 20px;
+  padding: 30px 20px;
+  padding-bottom: 10px;
 }
 
 .box {
@@ -22,6 +23,7 @@
 
 .bottom {
   display: flex;
+  align-items: stretch;
   justify-content: stretch;
 }
 

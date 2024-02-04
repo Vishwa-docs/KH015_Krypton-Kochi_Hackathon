@@ -3,8 +3,27 @@
 import Navbar from '@/components/Navbar';
 import Chart from '@/components/Chart';
 import styles from './page.module.css'
+import user from '../userCredentials.json';
+
+import { useState, useEffect } from 'react'
+import { useAtom } from 'jotai'
+import { userAtom } from '@/atoms/user';
 
 function Home() {
+  const [userId, setUserId] = useAtom(userAtom)
+  const [index, setIndex] = useState(-1);
+
+  useEffect(() => {
+    if (userId !== null) {
+      for (let i = 0; i < user.items.length; i++) {
+        if (user.items[i].username === userId) {
+          setIndex(i);
+          break;
+        }
+      }
+    }
+  }, [userId])
+
   return (
     <>
       <Navbar page={1} />
@@ -45,47 +64,31 @@ function Home() {
       </div>
       <div className={styles.bottom}>
         <div style={{ flex: 1 }} className={styles.outerBox}>
-          <div className={styles.box}>
-            <div className={styles.left}>
-              <h1>Previous transaction:</h1>
-              <div>From You @ L to Y @ W</div>
+          {index >= 0 && <>
+            <div className={styles.box}>
+              <div className={styles.left}>
+                <h1>Your Balance:</h1>
+                <h2>₹ {user.items[index].balance}</h2>
+                <h1 style={{ marginTop: "30px" }}>Previous Transaction:</h1>
+                <h2>₹ {user.items[index].recent_transactions[0].amount} was sent {user.items[index].recent_transactions[0].type === "debit" ? "to" : "by"} you {user.items[index].recent_transactions[0].type === "debit" ? "by" : "to"} {user.items[index].recent_transactions[0].to}</h2>
+                <h2></h2>
+              </div>
             </div>
-          </div>
+          </>}
         </div>
         <div style={{ flex: 2 }} className={styles.outerBox}>
           <div className={styles.box}>
             <div className={styles.left}>
-              <h1>Total Balance:</h1>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>To</th>
-                    <th>From</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>You</td>
-                    <td>John Doe</td>
-                    <td style={{ color: "green" }}>+ ₹ 200</td>
-                  </tr>
-                  <tr>
-                    <td>You</td>
-                    <td>John Doe</td>
-                    <td style={{ color: "red", }}>- ₹ 500</td>
-                  </tr>
-                  <tr>
-                    <td>You</td>
-                    <td>Adithya</td>
-                    <td style={{ color: "green", }}>+ ₹ 100</td>
-                  </tr>
-                </tbody>
-              </table >
+              <div className="charts">
+                <Chart
+                  title="Last 6 Months Fraud Transaction Recordings"
+                  aspect={3 / 1}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </div >
+        </div >
+      </div>
     </>
   );
 };

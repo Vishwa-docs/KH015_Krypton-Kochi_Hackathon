@@ -15,7 +15,7 @@ function History() {
   useEffect(() => {
     if (userId !== null) {
       for (let i = 0; i < user.items.length; i++) {
-        if (user.items[i].id === userId) {
+        if (user.items[i].username === userId) {
           setIndex(i);
           break;
         }
@@ -44,7 +44,7 @@ function History() {
               </tr>
             </thead>
             <tbody>
-              {user.items[index].recent_transactions.map((item) => {
+              {index >= 0 && user.items[index].recent_transactions.map((item) => {
                 return (
                   <>
                     <tr>

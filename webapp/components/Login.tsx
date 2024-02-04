@@ -12,21 +12,17 @@ import { userAtom } from '@/atoms/user'
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const [_, setUser] = useAtom(userAtom);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const hashedPassword = CryptoJS.SHA256(password).toString();
-    console.log(users);
-
     for (let i = 0; i < users.items.length; i++) {
       const user = users.items[i];
       if (user.username === username && user.pswd === hashedPassword) {
         setUser(user.username);
         localStorage.setItem('user', user.username)
-        console.log(user.username)
         return;
       }
     }
@@ -61,7 +57,6 @@ function Login() {
           />
           <button type="submit">Login</button>
         </form>
-        {error && <p className={styles.error}>{error}</p>}
       </div>
     </>
   );
