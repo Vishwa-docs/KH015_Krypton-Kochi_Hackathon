@@ -42,6 +42,12 @@
 ### Submission 8
 1. Completed the Mobile App
 
+### Submission 9
+1. Key Logging Done
+
+### Submission 10
+1. Front End Integration
+
 ***
 ***
 ## Team Members
