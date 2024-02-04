@@ -26,6 +26,21 @@
 2. Finished the static pages in Android App
 3. Started building model for Android App
 
+### Submission 5
+1. Improved the model
+2. Attended talk for seminar
+
+### Submission 6
+1. Finished the model for Android App
+2. Backend integration with web application complete
+3. Started working on the deployment of the model on app
+
+### Submission 7
+1. Added rules for Android App
+2. Added Zero Knowledge Protocol for Login Page
+
+### Submission 8
+1. Completed the Mobile App
 
 ***
 ***
@@ -53,3 +68,13 @@ Our Innovations:
 2. **Real-time Network Analysis:** Analyzes financial transactions in real-time for enhanced security. 
 3. **Crypto-Based Authentication:** Implements a hash-based authentication (Zero-Knowledge Protocol) for secure user login. 
 4. **Phishing and Spam Detection** on the Edge
+
+***
+## Technology Stack
+1. Frontend Technologies : React, Bootstrap 
+2. Backend Technologies : NodeJS, Express, Flask (Python) 
+3. Database : MongoDB, Firebase 
+4. Machine Learning and Pipelines : Tensorflow, Jenkins 
+5. APIs : FastAPI
+6. Android App : Kotlin
+7. Cloud Messaging : Apache Kafka
