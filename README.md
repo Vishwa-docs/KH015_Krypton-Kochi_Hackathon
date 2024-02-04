@@ -48,6 +48,11 @@
 ### Submission 10
 1. Front End Integration
 
+### Submission 11
+1. Started working on Keystroke analysis
+2. Frontend Dashboard for the web application
+
+
 ***
 ***
 ## Team Members
