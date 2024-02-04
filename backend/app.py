@@ -10,23 +10,29 @@ import pymongo
 from datetime import datetime
 import pandas as pd
 import math
+from dotenv import load_dotenv
+import os
+import flask_sqlalchemy
 
 from flask_bcrypt import Bcrypt
-from models import User, db
+
 
 bcrypt = Bcrypt()
 
-
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
-app.config["SECRET_KEY"] = "SECRET_KEY"
-
-db.init_app(app)
-
 CORS(app)
 
+load_dotenv()
+pswd = os.getenv("SECRET")
 
+import hashlib
+import os
+import random
+
+
+########################
 ### MONGO DB BACKEND ###
+########################
 def delete_record(uid):
     client = pymongo.MongoClient(
         "mongodb+srv://achucod03:achintya%40mango@krypton.dc3eerr.mongodb.net/"
@@ -164,8 +170,6 @@ def convert_to_compatible(input, target):
     update_user(input["merchant"], NOW, target["merch_lat"], target["merch_long"])
 
 
-# Enable CORS for all routes
-
 model = pickle.load(open("NiceModel.sav", "rb"))
 
 
@@ -174,7 +178,6 @@ def home():
     return render_template("index.html")
 
 
-# Update the predict route in Flask
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
@@ -203,11 +206,19 @@ def predict():
         return jsonify({"error": "Error predicting"}), 500
 
 
-@app.route("/predict_api", methods=["POST"])
+@app.route("/predict_api", methods=["POST", "OPTIONS"])
 def predict_api():
     """
     For direct API calls through request
     """
+    if request.method == "OPTIONS":
+        # Handle CORS preflight requests
+        response = jsonify({"message": "CORS preflight successful"})
+        # Set CORS headers for preflight response
+        response.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+        response.headers.add("Access-Control-Allow-Methods", "POST")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        return response
     data = request.get_json(force=True)
     prediction = model.predict([np.array(list(data.values()))])
 
@@ -216,8 +227,11 @@ def predict_api():
 
     return jsonify(output)
 
+
+#########################
 ### KEYLOGGER BACKEND ###
-@app.route("/save-logs", methods=["POST", "OPTIONS"])
+#########################
+@app.route("/save-logs", methods=["POST"])
 def save_logs():
     if request.method == "OPTIONS":
         response = jsonify({"message": "CORS preflight successful"})
@@ -237,54 +251,79 @@ def save_logs():
 
         data = np.array(data).reshape(1, -1)
 
-        # data = scaler.transform(data)
+        data = scaler.transform(data)
         model = tf.keras.models.load_model("keystrokes_dynamics_model.h5")
         y = model.predict(tf.convert_to_tensor(data))
-        print(y)
 
         y = np.argmax(y, axis=1)
 
-        print(y)
-
-        return jsonify({"message": "Data received successfully", "y": int(y)})
+        if y == 12:
+            return jsonify({"message": "Normal"})
+        return jsonify({"message": "Anomaly detected"})
 
     else:
         return jsonify({"error": "Method not allowed"}), 405
 
 
-@app.route("/login", methods=["POST"])
-def login():
-    data = request.get_json()
-    email = data.get("email")
-    password = data.get("password")
+##################################
+### Zero Knowledge Proof Login ###
+##################################
+class ZKProof:
+    def __init__(self):
+        self.N = 20
+        self.salt = os.urandom(16)
 
-    user = User.query.filter_by(email=email).first()
+    def _hash(self, x):
+        return hashlib.sha256(x.encode("utf-8") + self.salt).hexdigest()
 
-    if user and bcrypt.check_password_hash(user.password, password):
-        return jsonify({"userid": user.userid})
-    else:
-        return jsonify({"error": "Invalid credentials"}), 401
+    def generate_proof(self, secret):
+        self.secret = secret
+        self.v = self._hash(secret)
+        r = str(random.randint(1, self.N))
+        self.x = self._hash(r)
+        return self.x
+
+    def get_secret(self):
+        return self.secret
+
+    def verify(self, response):
+        return self.v == self._hash(response)
+
+
+zkp = ZKProof()
+
+secret_card = "password"
+x = zkp.generate_proof(secret_card)
+print("Proof:", x)
 
 
 @app.route("/register", methods=["POST"])
 def register():
-    data = request.get_json()
-    email = data.get("email")
-    password = data.get("password")
-    username = data.get("username")
-    latitude = data.get("latitude")
-    longitude = data.get("longitude")
+    data = request.json
 
-    hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
-    new_user = User(
-        username=username,
-        email=email,
-    )
-    db.session.add(new_user)
-    db.session.commit()
+    email = data["email"]
+    password = data["password"]
 
-    return jsonify({"userid": new_user.userid}), 201
+    return jsonify({"message": "Data received successfully"})
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.json
+
+    email = data["email"]
+    pswd = data["pswd"]
+
+    if zkp.verify(pswd):
+        return jsonify(
+            {
+                "message": "Successfully logged in",
+                "email": email,
+            }
+        )
+
+    return jsonify({"message": "Userid or password incorrect"})
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(debug=True)
