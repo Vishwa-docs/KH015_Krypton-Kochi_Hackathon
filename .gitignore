@@ -137,6 +137,8 @@ dmypy.json
 
 # Data Files
 Sample_Data.json
+key_dynamics_analysis.json
+logs.json
 
 # Zip
 *.zip
