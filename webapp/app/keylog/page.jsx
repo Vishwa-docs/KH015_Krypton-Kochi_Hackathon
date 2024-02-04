@@ -32,6 +32,10 @@ function Main() {
   window.addEventListener("load", function () {
     const keys = "abcdefghijklmnopqrstuvwxyz1234567890".split("");
     keys.forEach(function (key) {
+      fetch("http://localhost:5000/save-logs")
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+
       document.addEventListener("keydown", function (event) {
         if (event.key === key) {
           if (!keyPressDurations[key]) {

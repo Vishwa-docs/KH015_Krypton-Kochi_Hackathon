@@ -21,7 +21,6 @@
       var time = new Date().getTime();
       keyPressStartTime[key] = time;
       keyPressLogs.push(time);
-      console.log(key)
     }
 
     function handleKeyUp(event) {
@@ -38,13 +37,13 @@
 
     function sendLogsToFlask() {
       const xhr = new XMLHttpRequest();
-      const url = 'http://localhost:5000/save-logs';
+      const url = 'http://127.0.0.1:5000/save-logs';
       const data = JSON.stringify(keyPressLogs);
 
       xhr.open('POST', url, true);
       xhr.setRequestHeader('Content-Type', 'application/json');
 
-      xhr.onMiddle = function () {
+      xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
           console.log('Logs sent to Flask successfully.');
         }
@@ -73,15 +72,6 @@
     window.addEventListener('click', clearKeyPressLogs);
     window.addEventListener('load', retrieveKeyPressLogs);
 
-    const response = fetch('http://localhost:5000/save-logs', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(keyPressLogs)
-    }).then(response => response.json())
-
-    console.log(response)
 
   </script>
 </body>
