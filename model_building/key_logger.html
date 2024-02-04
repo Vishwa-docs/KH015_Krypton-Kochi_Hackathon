@@ -35,8 +35,43 @@
         document.addEventListener("keydown", handleKeyDown);
         document.addEventListener("keyup", handleKeyUp);
 
-        
+        function saveKeyPressLogs() {
+            const jsonLogs = JSON.stringify(keyPressLogs);
+            console.log('KeyPress logs:', keyPressLogs);
+            localStorage.setItem('keypresslogs', jsonLogs);
+            console.log('KeyPress logs saved successfully.');
 
+        function sendLogsToFlask() {
+            const xhr = new XMLHttpRequest();
+            const url = 'http:127.0.0.1:5000/save-logs';
+            const data = JSON.stringify(keyPressLogs);
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('Logs sent to Flask successfully.');
+                }
+            };
+
+            xhr.send(data);
+        }
+
+window.addEventListener('beforeunload', sendLogsToFlask);
+            
+        }
+
+        function retrieveKeyPressLogs() {
+            const jsonLogs = localStorage.getItem('keypresslogs');
+            if (jsonLogs) {
+                keyPressLogs = JSON.parse(jsonLogs);
+                console.log('KeyPress logs retrieved successfully.');
+            }
+        }
+
+        window.addEventListener('beforeunload', saveKeyPressLogs);
+        window.addEventListener('load', retrieveKeyPressLogs);
     </script>
 </body>
 </html>
