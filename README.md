@@ -48,6 +48,15 @@
 ### Submission 10
 1. Front End Integration
 
+### Submission 11
+1. Started working on Keystroke analysis
+2. Frontend Dashboard for the web application
+
+### Submission 12
+1. Started work on Kafka to connect
+2. Started implementing Keystroke analysis
+3. Nearly completed webpage
+
 ***
 ***
 ## Team Members

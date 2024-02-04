@@ -16,12 +16,12 @@
   font-size: 20px;
 }
 
-.box>form>div>div {
+.innerBox>form>div>div {
   padding-left: 10px;
   font-weight: bold;
 }
 
-.box>form>div>input[type="text"] {
+.innerBox>form>div>input[type="text"] {
   background-color: #E3E6E9;
   width: 400px;
   border-radius: 7px;
@@ -34,7 +34,7 @@
   font-size: 20px;
 }
 
-.box>form>div>input[type="submit"] {
+.innerBox>form>div>input[type="submit"] {
   background-color: var(--primary-color);
   border-radius: 10px;
   font-weight: bold;

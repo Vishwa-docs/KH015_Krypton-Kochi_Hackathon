@@ -15,6 +15,7 @@ function Prediction() {
   });
 
   const [prediction, setPrediction] = useState(null);
+  const [loading, setLoading] = useState<boolean | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,7 +23,6 @@ function Prediction() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
 
     fetch('http://127.0.0.1:5000/predict', {
       method: 'POST',
@@ -33,8 +33,8 @@ function Prediction() {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         setPrediction(data);
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error making API request:', error);
@@ -75,8 +75,8 @@ function Prediction() {
             </div>
           </form>
 
-          {prediction && (
-            <div>
+          {prediction && !loading && (
+            <div style={{ textAlign: "center", margin: "30px" }}>
               <h2>Prediction: {prediction}</h2>
             </div>
           )}
