@@ -3,7 +3,8 @@
 import { useState, FormEvent } from "react";
 import CryptoJS from "crypto-js"
 import users from "../../userCredentials.json";
-import styles from "./Login.module.css";
+import styles from "./page.module.css";
+import Navbar from "@/components/Navbar";
 
 import { useAtom } from 'jotai';
 import { userAtom } from '@/atoms/user'
@@ -36,29 +37,32 @@ function Login() {
   };
 
   return (
-    <div className={styles.login}>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      {error && <p className={styles.error}>{error}</p>}
-    </div>
+    <>
+      <Navbar page={0} />
+      <div className={styles.login}>
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+        {error && <p className={styles.error}>{error}</p>}
+      </div>
+    </>
   );
 }
 
