@@ -32,15 +32,14 @@
 }
 
 .table>tbody {
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
 .table>thead>tr>th,
 .table>tbody>tr>td {
-  border: 1px solid #dddddd;
+  border: 1px solid #eee;
   text-align: left;
   padding: 8px;
-  border: none;
 }
 
 .table>tbody>tr>td>button {
@@ -58,4 +57,12 @@
 
 .text>u {
   font-weight: bold;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
 }

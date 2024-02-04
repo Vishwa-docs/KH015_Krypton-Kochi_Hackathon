@@ -1,6 +1,15 @@
 import styles from './Navbar.module.css'
+import { useAtom } from 'jotai';
+import { userAtom } from '@/atoms/user'
 
 function Navbar({ page }: { page: number }) {
+  const [_, setUser] = useAtom(userAtom);
+
+  function handleClick() {
+    localStorage.removeItem('user');
+    setUser(null);
+  }
+
   return (
     <>
       <div className={styles.nav}>
@@ -17,13 +26,13 @@ function Navbar({ page }: { page: number }) {
             <a href="/iptracking" className={page === 3 ? styles.active : styles.inactive}>IP Tracking</a>
           </div>
           <div>
-            <a href="/history" className={page === 4 ? styles.active : styles.inactive}>History</a>
+            <a href="/history" className={page === 4 ? styles.active : styles.inactive}>Transaction History</a>
           </div>
           <div>
             <a href="/network_analysis" className={page === 5 ? styles.active : styles.inactive}>Network Analysis</a>
           </div>
           <div>
-            <button className={styles.login}>Login</button>
+            <button className={styles.login} onClick={handleClick}>LogOut</button>
           </div>
         </div>
       </div>

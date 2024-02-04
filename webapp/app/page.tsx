@@ -8,11 +8,6 @@ function Home() {
   return (
     <>
       <Navbar page={1} />
-      <div className="loader-container">
-        <div className="loader">
-          <div className="progress" id="progress">70%</div>
-        </div>
-      </div>
       <div className={styles.top}>
         <div className={styles.outerBox}>
           <div className={styles.box}>
@@ -52,6 +47,14 @@ function Home() {
         <div style={{ flex: 1 }} className={styles.outerBox}>
           <div className={styles.box}>
             <div className={styles.left}>
+              <h1>Previous transaction:</h1>
+              <div>From You @ L to Y @ W</div>
+            </div>
+          </div>
+        </div>
+        <div style={{ flex: 2 }} className={styles.outerBox}>
+          <div className={styles.box}>
+            <div className={styles.left}>
               <h1>Total Balance:</h1>
               <table className={styles.table}>
                 <thead>
@@ -80,11 +83,6 @@ function Home() {
                 </tbody>
               </table >
             </div>
-          </div>
-        </div>
-        <div style={{ flex: 2 }} className={styles.outerBox}>
-          <div className={styles.box}>
-            <div className={styles.right}><Chart aspect={100} title="Hello world" /></div>
           </div>
         </div>
       </div >
