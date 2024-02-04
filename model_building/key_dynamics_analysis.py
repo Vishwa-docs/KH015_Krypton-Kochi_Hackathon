@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 from flask_cors import CORS
 from sklearn.preprocessing import StandardScaler
+import pickle
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -27,30 +28,26 @@ def save_logs():
     elif request.method == 'POST':
 
         data = request.json
-        data = data[0]
+        data = [x - data[0] for x in data]
+        data = data[:26]
+
         print(data)
-        # new_data = []
-        # for _ in range(31):
-        #     new_data.append(data['duration'])
 
-        # new_data = np.array(new_data).reshape(1, 31)
-        # import pickle
+        with open('scaler.pkl', 'rb') as f:
+            scaler = pickle.load(f)
 
-        # with open('scale.pkl', 'rb') as f:
-        #     scaler = pickle.load(f)
+        data = np.array(data).reshape(1, -1)
 
-        # new_data = scaler.transform(new_data)
-        # model = tf.keras.models.load_model('key_dynamics_model.h5')
-        # y = model.predict(tf.convert_to_tensor(new_data))
+        # data = scaler.transform(data)
+        model = tf.keras.models.load_model('keystrokes_dynamics_model.h5')
+        y = model.predict(tf.convert_to_tensor(data))
+        print(y)
         
-        # y = np.argmax(y, axis=1)
+        y = np.argmax(y, axis=1)
 
-        # print(y)
+        print(y)
 
-        # if y == 0:
-        #     return jsonify({'message': 'Suspicious activity detected'})
-        # else:
-        #     return jsonify({'message': 'No suspicious activity detected'})
+        return jsonify({'message': 'Data received successfully', 'y': int(y)})
 
     else:
         return jsonify({'error': 'Method not allowed'}), 405

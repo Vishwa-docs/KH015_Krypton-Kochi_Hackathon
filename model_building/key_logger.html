@@ -18,7 +18,7 @@
             var key = event.key;
             var time = new Date().getTime();
             keyPressStartTime[key] = time;
-            console.log("Key down: " + key + ", Time: " + time);
+            keyPressLogs.push(time);
         }
 
         function handleKeyUp(event) {
@@ -27,7 +27,6 @@
             if (keyPressStartTime[key]) {
                 keyPressLogs.push(time);
                 delete keyPressStartTime[key];
-                console.log("Key up: " + key + ", Time: " + time);
             }
         }
 
