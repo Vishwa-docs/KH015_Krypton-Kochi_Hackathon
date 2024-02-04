@@ -16,34 +16,27 @@
 
         function handleKeyDown(event) {
             var key = event.key;
-            keyPressStartTime[key] = new Date().getTime();
+            var time = new Date().getTime();
+            keyPressStartTime[key] = time;
+            console.log("Key down: " + key + ", Time: " + time);
         }
 
         function handleKeyUp(event) {
             var key = event.key;
+            var time = new Date().getTime();
             if (keyPressStartTime[key]) {
-                var duration = new Date().getTime() - keyPressStartTime[key];
-                var log = {
-                    key: key,
-                    duration: duration
-                };
-                keyPressLogs.push(log);
+                keyPressLogs.push(time);
                 delete keyPressStartTime[key];
+                console.log("Key up: " + key + ", Time: " + time);
             }
         }
 
         document.addEventListener("keydown", handleKeyDown);
         document.addEventListener("keyup", handleKeyUp);
 
-        function saveKeyPressLogs() {
-            const jsonLogs = JSON.stringify(keyPressLogs);
-            console.log('KeyPress logs:', keyPressLogs);
-            localStorage.setItem('keypresslogs', jsonLogs);
-            console.log('KeyPress logs saved successfully.');
-
         function sendLogsToFlask() {
             const xhr = new XMLHttpRequest();
-            const url = 'http:127.0.0.1:5000/save-logs';
+            const url = 'http://127.0.0.1:5000/save-logs';
             const data = JSON.stringify(keyPressLogs);
 
             xhr.open('POST', url, true);
@@ -58,9 +51,7 @@
             xhr.send(data);
         }
 
-window.addEventListener('beforeunload', sendLogsToFlask);
-            
-        }
+        window.addEventListener('beforeunload', sendLogsToFlask);
 
         function retrieveKeyPressLogs() {
             const jsonLogs = localStorage.getItem('keypresslogs');
@@ -70,7 +61,13 @@ window.addEventListener('beforeunload', sendLogsToFlask);
             }
         }
 
-        window.addEventListener('beforeunload', saveKeyPressLogs);
+        function clearKeyPressLogs() {
+            localStorage.removeItem('keypresslogs');
+            keyPressLogs = [];
+            console.log('KeyPress logs cleared successfully.');
+        }
+
+        window.addEventListener('click', clearKeyPressLogs);
         window.addEventListener('load', retrieveKeyPressLogs);
     </script>
 </body>
