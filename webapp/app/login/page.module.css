@@ -44,7 +44,7 @@
   background-color: rgb(50, 3, 74);
 }
 
-label {
+.label {
   color: #333;
   display: block;
   font-weight: bold;
