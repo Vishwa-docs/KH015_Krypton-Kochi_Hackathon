@@ -56,6 +56,7 @@
             const jsonLogs = localStorage.getItem('keypresslogs');
             if (jsonLogs) {
                 keyPressLogs = JSON.parse(jsonLogs);
+                console.log(keyPressLogs)
                 console.log('KeyPress logs retrieved successfully.');
             }
         }
