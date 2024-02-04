@@ -1,4 +1,7 @@
 from flask import Flask, request, jsonify, render_template
+import json
+import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
 import pickle
 from flask_cors import CORS
 import numpy as np
@@ -12,6 +15,7 @@ app = Flask(__name__)
 CORS(app)
 
 
+### MONGO DB BACKEND ###
 def delete_record(uid):
     client = pymongo.MongoClient(
         "mongodb+srv://achucod03:achintya%40mango@krypton.dc3eerr.mongodb.net/"
@@ -204,6 +208,41 @@ def predict_api():
 
     return jsonify(output)
 
+### KEYLOGGER BACKEND ###
+@app.route("/save-logs", methods=["POST", "OPTIONS"])
+def save_logs():
+    if request.method == "OPTIONS":
+        response = jsonify({"message": "CORS preflight successful"})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Methods", "POST")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        return response
+    elif request.method == "POST":
+        data = request.json
+        data = [x - data[0] for x in data]
+        data = data[:26]
+
+        print(data)
+
+        with open("scaler.pkl", "rb") as f:
+            scaler = pickle.load(f)
+
+        data = np.array(data).reshape(1, -1)
+
+        # data = scaler.transform(data)
+        model = tf.keras.models.load_model("keystrokes_dynamics_model.h5")
+        y = model.predict(tf.convert_to_tensor(data))
+        print(y)
+
+        y = np.argmax(y, axis=1)
+
+        print(y)
+
+        return jsonify({"message": "Data received successfully", "y": int(y)})
+
+    else:
+        return jsonify({"error": "Method not allowed"}), 405
+
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5000, debug=True)
