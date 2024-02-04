@@ -30,8 +30,8 @@ def save_logs():
 
         data = np.array(data).reshape(1, -1)
 
-        # data = scaler.transform(data)
-        model = tf.keras.models.load_model("keystrokes_dynamics_model.h5")
+        data = scaler.transform(data)
+        model = tf.keras.models.load_model('keystrokes_dynamics_model.h5')
         y = model.predict(tf.convert_to_tensor(data))
 
         y = np.argmax(y, axis=1)
