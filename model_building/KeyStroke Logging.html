@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Press Logger</title>
+</head>
+<body>
+    <h1>Key Press Logger</h1>
+    <p>Type something in this document.</p>
+
+    <script>
+        var keyPressLogs = [];
+
+        var keyPressStartTime = {};
+
+        function handleKeyDown(event) {
+            var key = event.key;
+            var time = new Date().getTime();
+            keyPressStartTime[key] = time;
+            keyPressLogs.push(time);
+        }
+
+        function handleKeyUp(event) {
+            var key = event.key;
+            var time = new Date().getTime();
+            if (keyPressStartTime[key]) {
+                keyPressLogs.push(time);
+                delete keyPressStartTime[key];
+            }
+        }
+
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("keyup", handleKeyUp);
+
+        function sendLogsToFlask() {
+            const xhr = new XMLHttpRequest();
+            const url = 'http://127.0.0.1:5000/save-logs';
+            const data = JSON.stringify(keyPressLogs);
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('Logs sent to Flask successfully.');
+                }
+            };
+
+            xhr.send(data);
+        }
+
+        window.addEventListener('beforeunload', sendLogsToFlask);
+
+        function retrieveKeyPressLogs() {
+            const jsonLogs = localStorage.getItem('keypresslogs');
+            if (jsonLogs) {
+                keyPressLogs = JSON.parse(jsonLogs);
+                console.log(keyPressLogs)
+                console.log('KeyPress logs retrieved successfully.');
+            }
+        }
+
+        function clearKeyPressLogs() {
+            localStorage.removeItem('keypresslogs');
+            keyPressLogs = [];
+            console.log('KeyPress logs cleared successfully.');
+        }
+
+        window.addEventListener('click', clearKeyPressLogs);
+        window.addEventListener('load', retrieveKeyPressLogs);
+
+        
+    </script>
+</body>
+</html>

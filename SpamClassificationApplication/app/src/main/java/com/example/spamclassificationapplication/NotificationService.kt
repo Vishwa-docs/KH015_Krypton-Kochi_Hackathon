@@ -25,6 +25,7 @@ import java.nio.ByteOrder
 private lateinit var scamModel: TextClassificationClient
 
 
+// Notification channels
 const val channelid = "notification_channel"
 const val channelname = "com.example.myapplication"
 
@@ -36,7 +37,7 @@ class NotificationService: FirebaseMessagingService() {
     @RequiresApi(Build.VERSION_CODES.O)
     // Analyze incoming notifications and show a dialog box if they are classified as scams
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        if (remoteMessage.getNotification() != null){
+        if (remoteMessage.notification != null){
             val notificationText = remoteMessage.notification!!.body!!
             val score = scamModel.classify(notificationText)
 
@@ -79,9 +80,10 @@ class NotificationService: FirebaseMessagingService() {
     fun generateNotification(title : String, message: String){
 
         val intent = Intent(this, MainActivity::class.java) // If clicked, then go to the app
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Clear all the activity in the stack and put it on top
 
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent,
+            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
 
         // channel id and name
 

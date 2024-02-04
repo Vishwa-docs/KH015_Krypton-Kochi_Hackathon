@@ -4,9 +4,7 @@
     <option name="sdkName" value="Python 3.9 (Py)" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" default="true" project-jdk-name="Python 3.9 (Py)" project-jdk-type="Python SDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (KH015_Krypton-Kochi_Hackathon)" project-jdk-type="Python SDK" />
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
