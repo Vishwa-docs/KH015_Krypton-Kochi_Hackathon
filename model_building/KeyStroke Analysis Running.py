@@ -33,13 +33,12 @@ def save_logs():
         # data = scaler.transform(data)
         model = tf.keras.models.load_model("keystrokes_dynamics_model.h5")
         y = model.predict(tf.convert_to_tensor(data))
-        print(y)
 
         y = np.argmax(y, axis=1)
 
-        print(y)
-
-        return jsonify({"message": "Data received successfully", "y": int(y)})
+        if y == 12:
+            return jsonify({"message": "Normal"})
+        return jsonify({"message": "Anomaly detected"})
 
     else:
         return jsonify({"error": "Method not allowed"}), 405
@@ -47,4 +46,3 @@ def save_logs():
 
 if __name__ == "__main__":
     app.run(port=5000)
-
