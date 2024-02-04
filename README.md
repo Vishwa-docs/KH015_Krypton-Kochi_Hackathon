@@ -48,6 +48,7 @@ To tackle this problem, we propose a **three-pronged solution**:
 ***
 # UI and App
 ![Image1](https://github.com/Vishwa-docs/KH015_Krypton-Kochi_Hackathon/blob/main/Resources/Spam%20App.jpg)
+![Image2](https://github.com/Vishwa-docs/KH015_Krypton-Kochi_Hackathon/blob/main/Resources/WhatsApp%20Image%202024-02-04%20at%2015.19.31.jpeg)
 
 ***
 ## Data
