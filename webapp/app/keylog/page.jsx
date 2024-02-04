@@ -17,22 +17,22 @@ function Main() {
     }
   }
 
-  document.addEventListener("keydown", function(event) {
+  document.addEventListener("keydown", function (event) {
     const key = event.key;
     if (!keyPressDurations[key]) {
       startKeyPressTimer(key);
     }
   });
 
-  document.addEventListener("keyup", function(event) {
+  document.addEventListener("keyup", function (event) {
     const key = event.key;
     stopKeyPressTimer(key);
   });
 
-  window.addEventListener("load", function() {
+  window.addEventListener("load", function () {
     const keys = "abcdefghijklmnopqrstuvwxyz1234567890".split("");
-    keys.forEach(function(key) {
-      document.addEventListener("keydown", function(event) {
+    keys.forEach(function (key) {
+      document.addEventListener("keydown", function (event) {
         if (event.key === key) {
           if (!keyPressDurations[key]) {
             startKeyPressTimer(key);
@@ -40,7 +40,7 @@ function Main() {
         }
       });
 
-      document.addEventListener("keyup", function(event) {
+      document.addEventListener("keyup", function (event) {
         if (event.key === key) {
           stopKeyPressTimer(key);
         }
