@@ -52,7 +52,7 @@ function Prediction() {
 
   return (
     <>
-      <Navbar page={3} />
+      <Navbar page={4} />
 
       <div className={styles.outerBox}>
         <div className={styles.box}>
