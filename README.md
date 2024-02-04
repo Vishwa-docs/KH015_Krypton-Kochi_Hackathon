@@ -47,6 +47,7 @@ To tackle this problem, we propose a **three-pronged solution**:
 
 ***
 # UI and App
+![Image1](https://github.com/Vishwa-docs/KH015_Krypton-Kochi_Hackathon/blob/main/Resources/Spam%20App.jpg)
 
 ***
 ## Data
