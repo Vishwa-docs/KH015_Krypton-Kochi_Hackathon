@@ -7,7 +7,7 @@ function NetworkAnalysis() {
 
   return (
     <>
-      <Navbar page={5} />
+      <Navbar page={6} />
 
       <div className={styles.outerBox}>
         <div className={styles.box}>

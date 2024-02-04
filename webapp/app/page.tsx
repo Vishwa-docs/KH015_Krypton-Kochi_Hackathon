@@ -10,7 +10,7 @@ import { useAtom } from 'jotai'
 import { userAtom } from '@/atoms/user';
 
 function Home() {
-  const [userId, setUserId] = useAtom(userAtom)
+  const [userId, _] = useAtom(userAtom)
   const [index, setIndex] = useState(-1);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function Home() {
           <div className={styles.box}>
             <div style={{ float: "right", color: "green", verticalAlign: "text-top" }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-arrow-up-short" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
+                <path fillRule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
               </svg>20 %</div>
             <h2>Valid Transactions</h2>
             <div style={{ padding: "40px 30px", fontSize: "40px" }}>1000</div>
@@ -43,7 +43,7 @@ function Home() {
           <div className={styles.box}>
             <div style={{ float: "right", color: "green" }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-arrow-up-short" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
+                <path fillRule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
               </svg>20 %</div>
             <h2>Fraudulant Transactions</h2>
             <div style={{ padding: "40px 30px", fontSize: "40px" }}>10000</div>
@@ -54,7 +54,7 @@ function Home() {
           <div className={styles.box}>
             <div style={{ float: "right", color: "green" }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-arrow-up-short" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
+                <path fillRule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
               </svg>20 %</div>
             <h2>Total Transactions</h2>
             <div style={{ padding: "40px 30px", fontSize: "40px" }}>11000</div>
@@ -69,7 +69,7 @@ function Home() {
               <div className={styles.left}>
                 <h1>Your Balance:</h1>
                 <h2>₹ {user.items[index].balance}</h2>
-                <h1 style={{ marginTop: "30px" }}>Previous Transaction:</h1>
+                <h1 style={{ marginTop: "30px" }}>Latest Transaction:</h1>
                 <h2>₹ {user.items[index].recent_transactions[0].amount} was sent {user.items[index].recent_transactions[0].type === "debit" ? "to" : "by"} you {user.items[index].recent_transactions[0].type === "debit" ? "by" : "to"} {user.items[index].recent_transactions[0].to}</h2>
                 <h2></h2>
               </div>

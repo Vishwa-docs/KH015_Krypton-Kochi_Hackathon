@@ -25,7 +25,7 @@ function History() {
 
   return (
     <>
-      <Navbar page={4} />
+      <Navbar page={5} />
 
       <div className={styles.outerBox}>
         <div className={styles.box}>
