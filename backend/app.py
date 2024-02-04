@@ -16,17 +16,14 @@ import flask_sqlalchemy
 
 from flask_bcrypt import Bcrypt
 
-db = flask_sqlalchemy.SQLAlchemy(app)
 
 bcrypt = Bcrypt()
 
-load_dotenv()
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
-
-pswd = os.getenv("SECRET")
-
 app = Flask(__name__)
 CORS(app)
+
+load_dotenv()
+pswd = os.getenv("SECRET")
 
 import hashlib
 import os
@@ -209,11 +206,19 @@ def predict():
         return jsonify({"error": "Error predicting"}), 500
 
 
-@app.route("/predict_api", methods=["POST"])
+@app.route("/predict_api", methods=["POST", "OPTIONS"])
 def predict_api():
     """
     For direct API calls through request
     """
+    if request.method == "OPTIONS":
+        # Handle CORS preflight requests
+        response = jsonify({"message": "CORS preflight successful"})
+        # Set CORS headers for preflight response
+        response.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+        response.headers.add("Access-Control-Allow-Methods", "POST")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        return response
     data = request.get_json(force=True)
     prediction = model.predict([np.array(list(data.values()))])
 
@@ -228,27 +233,36 @@ def predict_api():
 #########################
 @app.route("/save-logs", methods=["POST"])
 def save_logs():
-    data = request.json
-    data = [x - data[0] for x in data]
-    data = data[:26]
+    if request.method == "OPTIONS":
+        response = jsonify({"message": "CORS preflight successful"})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Methods", "POST")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        return response
+    elif request.method == "POST":
+        data = request.json
+        data = [x - data[0] for x in data]
+        data = data[:26]
 
-    print(data)
+        print(data)
 
-    with open("scaler.pkl", "rb") as f:
-        scaler = pickle.load(f)
+        with open("scaler.pkl", "rb") as f:
+            scaler = pickle.load(f)
 
-    data = np.array(data).reshape(1, -1)
+        data = np.array(data).reshape(1, -1)
 
-    # data = scaler.transform(data)
-    model = tf.keras.models.load_model("keystrokes_dynamics_model.h5")
-    y = model.predict(tf.convert_to_tensor(data))
-    print(y)
+        data = scaler.transform(data)
+        model = tf.keras.models.load_model("keystrokes_dynamics_model.h5")
+        y = model.predict(tf.convert_to_tensor(data))
 
-    y = np.argmax(y, axis=1)
+        y = np.argmax(y, axis=1)
 
-    print(y)
+        if y == 12:
+            return jsonify({"message": "Normal"})
+        return jsonify({"message": "Anomaly detected"})
 
-    return jsonify({"message": "Data received successfully", "y": int(y)})
+    else:
+        return jsonify({"error": "Method not allowed"}), 405
 
 
 ##################################
@@ -276,12 +290,6 @@ class ZKProof:
         return self.v == self._hash(response)
 
 
-class Users(db.Model):
-    def __init__(self, email, password_hash):
-        self.email = email
-        self.password_hash = password_hash
-
-
 zkp = ZKProof()
 
 secret_card = "password"
@@ -300,20 +308,22 @@ def register():
 
 
 @app.route("/login", methods=["POST"])
-def register():
+def login():
     data = request.json
 
-    email = data.email
-    pswd = data.pswd
-
-    db.get(email)
+    email = data["email"]
+    pswd = data["pswd"]
 
     if zkp.verify(pswd):
-        return jsonify({"message": "Successfully logged in"})
+        return jsonify(
+            {
+                "message": "Successfully logged in",
+                "email": email,
+            }
+        )
 
     return jsonify({"message": "Userid or password incorrect"})
 
 
 if __name__ == "__main__":
-    db.create_all()
     app.run(debug=True)
