@@ -8,7 +8,18 @@ from datetime import datetime
 import pandas as pd
 import math
 
+from flask_bcrypt import Bcrypt
+from models import User, db
+
+bcrypt = Bcrypt()
+
+
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
+app.config["SECRET_KEY"] = "SECRET_KEY"
+
+db.init_app(app)
+
 CORS(app)
 
 
@@ -110,9 +121,7 @@ def calculate_distance(lat_prev, long_prev, lat_current, long_current):
 def convert_to_compatible(input, target):
     print(input)
     NOW = datetime.now()
-    print("---")
 
-    print(get_score_from_id(input["cc_num"]))
     target["cc_num"] = get_score_from_id("'" + input["cc_num"])["fraud_rate"]
     target["merchant"] = get_score_from_id(input["merchant"])["fraud_rate"]
     target["amt"] = input["amt"]
@@ -169,7 +178,6 @@ def predict():
         in_features = request.form.to_dict()
         out_features = {}
 
-        print("---")
         convert_to_compatible(in_features, out_features)
 
         float_features = [float(x) for x in out_features.values()]
@@ -205,5 +213,41 @@ def predict_api():
     return jsonify(output)
 
 
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+
+    user = User.query.filter_by(email=email).first()
+
+    if user and bcrypt.check_password_hash(user.password, password):
+        return jsonify({"userid": user.userid})
+    else:
+        return jsonify({"error": "Invalid credentials"}), 401
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+    username = data.get("username")
+    latitude = data.get("latitude")
+    longitude = data.get("longitude")
+
+    hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+    new_user = User(
+        username=username,
+        email=email,
+    )
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({"userid": new_user.userid}), 201
+
+
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
