@@ -8,6 +8,13 @@ function NetworkAnalysis() {
   return (
     <>
       <Navbar page={5} />
+
+      <div className={styles.outerBox}>
+        <div className={styles.box}>
+          <img src="/graph.png" alt="Network Analysis" />
+          <img src="/graph_connected.png" alt="Network Analysis" />
+        </div>
+      </div>
     </>
   )
 }

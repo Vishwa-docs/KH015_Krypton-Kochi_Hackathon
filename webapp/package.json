@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@swan-io/srp": "^0.2.6",
     "chart.js": "^4.4.1",
     "crypto-js": "^4.2.0",
     "crypto-json": "^2.0.2",
